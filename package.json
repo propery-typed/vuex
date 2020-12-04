@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Strict types for vuex modules",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint .",
     "build": "rimraf dist && tsc --p tsconfig.build.json",
