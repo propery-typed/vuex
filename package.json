@@ -1,7 +1,7 @@
 {
-  "name": "typed-vuex",
-  "version": "0.0.1",
-  "description": "",
+  "name": "@properly-typed/vuex",
+  "version": "0.0.0",
+  "description": "Strict types for vuex modules",
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
@@ -10,17 +10,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/temoncher/typed-vuex.git"
+    "url": "git+https://github.com/propery-typed/vuex"
   },
   "keywords": [
-    "vuex"
+    "vuex",
+    "typescript",
+    "types"
   ],
   "author": "temoncher@yandex.ru",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/temoncher/typed-vuex/issues"
+    "url": "https://github.com/propery-typed/vuex/issues"
   },
-  "homepage": "https://github.com/temoncher/typed-vuex#readme",
+  "homepage": "https://github.com/propery-typed/vuex#readme",
+  "dependencies": {},
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
@@ -36,5 +39,8 @@
   },
   "peerDependencies": {
     "vuex": "^3.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
