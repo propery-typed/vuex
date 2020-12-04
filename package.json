@@ -1,12 +1,13 @@
 {
   "name": "@properly-typed/vuex",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Strict types for vuex modules",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint .",
     "build": "rimraf dist && tsc --p tsconfig.build.json",
-    "release": "yarn build && np"
+    "release": "npm run build && np"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
     "vuex": "^3.5.1"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   }
 }
