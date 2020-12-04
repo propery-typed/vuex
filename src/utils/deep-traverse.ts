@@ -1,8 +1,7 @@
 import { DefaultModuleConfig } from '@/defaults';
-import { IsAny } from './is-any';
-import { OmitType } from './omit-type';
+import { IsAny, IsNever } from '@properly-typed/utils';
+import { StripNever } from './strip-never';
 import { Unreachable } from './unreachable';
-import { IsNever } from './is-never';
 
 type ExtractField<
   M extends Partial<DefaultModuleConfig>,
@@ -23,11 +22,11 @@ export type DeepTraverse<
     : M['modules'] extends infer Modules
       ? IsNever<Modules> extends true
         ? M[T]
-        : OmitType<{
+        : StripNever<{
           [K in keyof Modules]: T extends keyof Modules[K]
             ? DeepTraverse<Modules[K], T>
             : never
-        }, never> extends infer ModuleTree
+        }> extends infer ModuleTree
           ? ExtractField<M, T> & ModuleTree
           : Unreachable
       : Unreachable;

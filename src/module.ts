@@ -1,9 +1,9 @@
+import { IsAny } from '@properly-typed/utils';
 import { TypedMutationTree } from './trees/mutation-tree';
 import { TypedGettersTree } from './trees/getter-tree';
 import { TypedActionTree } from './trees/action-tree';
-import { OmitType } from './utils/omit-type';
+import { StripNever } from './utils/strip-never';
 import { DefaultModuleConfig, DefaultRootConfig } from './defaults';
-import { IsAny } from './utils/is-any';
 
 type TypedModuleField<T, R> = IsAny<T> extends true
   ? any
@@ -14,7 +14,7 @@ type TypedModuleField<T, R> = IsAny<T> extends true
 export type TypedModule<
   Config extends DefaultModuleConfig = DefaultModuleConfig,
   RootConfig extends DefaultRootConfig = DefaultRootConfig,
-> = OmitType<{
+> = StripNever<{
   namespaced: TypedModuleField<Config['namespaced'], Config['namespaced']>;
   state: TypedModuleField<
   Config['state'],
@@ -36,4 +36,4 @@ export type TypedModule<
   Config['modules'],
   { [K in keyof Config['modules']]: TypedModule<Config['modules'][K], RootConfig> }
   >;
-}, never>;
+}>;

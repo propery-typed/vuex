@@ -130,6 +130,11 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
+"@properly-typed/utils@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@properly-typed/utils/-/utils-0.0.2.tgz#19c77ccc429994113df285dbfb3be774224c3d5f"
+  integrity sha512-LDHDpXOGxw3KGssCSWKITVzseBA9I7f5fxjKeQkmm58/NRyNTTyj9CNLo0FnXZX4fCRD3RMGF1MwzGA0gPtwGw==
+
 "@samverschueren/stream-to-observable@^0.3.0", "@samverschueren/stream-to-observable@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.1.tgz#a21117b19ee9be70c379ec1877537ef2e1c63301"

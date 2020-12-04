@@ -1,5 +1,5 @@
 import { ModuleConfig } from '@/module-config';
-import { ConvertToAlias } from '@/utils/convert-to-type-alias';
+import { ToDictionary } from '@properly-typed/utils';
 import { AuthAccountModuleConfig } from './auth-account/auth-account.types';
 
 type AuthActions = {
@@ -19,6 +19,6 @@ true,
 IAuthModuleState,
 never,
 AuthActions,
-ConvertToAlias<IAuthMutations>,
+ToDictionary<IAuthMutations>,
 { account: AuthAccountModuleConfig }
 >;

@@ -1,5 +1,5 @@
+import { Promisify } from '@properly-typed/utils';
 import { DispatchOptions } from 'vuex';
-import { Promisify } from './utils/promisify';
 import { CustomActions } from './primitives/custom-actions';
 
 type OptionsWithRoot<V extends true | false> = V extends true
