@@ -8,5 +8,8 @@
   },
   "extends": "./tsconfig.build.json",
   "include": ["src", "examples"],
-  "files": [".eslintrc.js"]
+  "files": [
+    ".eslintrc.js",
+    "webpack.config.ts"
+  ]
 }
