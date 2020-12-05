@@ -1,46 +1,77 @@
-import { Promisify } from '@properly-typed/utils';
+import { IsAny, Promisify } from '@properly-typed/utils';
 import { DispatchOptions } from 'vuex';
-import { CustomActions } from './primitives/custom-actions';
+import { CustomAction, CustomActions } from './primitives/custom-actions';
 
 type OptionsWithRoot<V extends true | false> = V extends true
   ? Omit<DispatchOptions, 'root'> & { root: true }
   : Omit<DispatchOptions, 'root'> & { root?: false };
 
-type DeriveActionType<
-  T extends keyof Actions | keyof RootActions,
+type LocalParameters<
+  Action extends CustomAction,
+> = Parameters<Action>[0] extends infer Payload
+  ? IsAny<Payload> extends true
+    ? [payload: Payload, options?: OptionsWithRoot<false>]
+    : Payload extends undefined
+      ? [payload?: Payload, options?: OptionsWithRoot<false>]
+      : [payload: Payload, options?: OptionsWithRoot<false>]
+  : never;
+
+type LocalParametersWithType<
+  T extends keyof Actions,
   Actions extends CustomActions,
+> = Parameters<Actions[T]>[0] extends infer Payload
+  ? IsAny<Payload> extends true
+    ? [payloadWithType: { type: T; payload: Payload }, options?: OptionsWithRoot<false>]
+    : Payload extends undefined
+      ? [payloadWithType?: { type: T; payload: Payload }, options?: OptionsWithRoot<false>]
+      : [payloadWithType: { type: T; payload: Payload }, options?: OptionsWithRoot<false>]
+  : never;
+
+type GlobalParameters<
+  RootAction extends CustomAction,
+> = Parameters<RootAction>[0] extends infer Payload
+  ? [payload: Payload, options: OptionsWithRoot<true>]
+  : never;
+
+type GlobalParametersWithType<
+  T extends keyof RootActions,
   RootActions extends CustomActions,
-> = T extends keyof Actions
-  ? Actions[T]
-  : T extends keyof RootActions
-    ? RootActions[T]
-    : never;
+> = Parameters<RootActions[T]>[0] extends infer Payload
+  ? [payload: { type: T; payload: Payload }, options: OptionsWithRoot<true>]
+  : never;
 
 export type TypedDispatch<
-  Actions extends CustomActions,
+  Actions extends CustomActions | undefined,
   RootActions extends CustomActions,
-> = {
-  // Action
-  <T extends keyof Actions | keyof RootActions = string>(
-    type: T,
-    payload?: Parameters<
-    DeriveActionType<T, Actions, RootActions>
-    >[0],
-    options?: T extends keyof Actions ? OptionsWithRoot<false> : OptionsWithRoot<true>
-  ): Promisify<ReturnType<
-  DeriveActionType<T, Actions, RootActions>
-  >>;
+> = Actions extends CustomActions
+  ? {
+  // Global Action
+  <T extends keyof RootActions = string>(
+      type: T,
+      ...parameters: GlobalParameters<RootActions[T]>
+    ): Promisify<ReturnType<RootActions[T]>>;
+  // Global Action with type in payload
+  <T extends keyof RootActions = string>(
+    ...parameters: GlobalParametersWithType<T, RootActions>
+  ): Promisify<ReturnType<RootActions[T]>>;
 
-  // Action with `type` in the payload
+  // Local Action
   <T extends keyof Actions = string>(
-    payloadWithType: {
-      type: T;
-      payload: Parameters<
-      DeriveActionType<T, Actions, RootActions>
-      >[0];
-    },
-    options?: T extends keyof Actions ? OptionsWithRoot<false> : OptionsWithRoot<true>
-  ): Promisify<ReturnType<
-  DeriveActionType<T, Actions, RootActions>
-  >>;
-};
+    type: T,
+    ...parameters: LocalParameters<Actions[T]>
+  ): Promisify<ReturnType<Actions[T]>>;
+  // Local Action with type in payload
+  <T extends keyof Actions = string>(
+    ...parameters: LocalParametersWithType<T, Actions>
+  ): Promisify<ReturnType<Actions[T]>>;
+  } : {
+  // Global Action
+  <T extends keyof RootActions = string>(
+      type: T,
+      ...parameters: GlobalParameters<RootActions[T]>
+    ): Promisify<ReturnType<RootActions[T]>>;
+  // Global Action with type in payload
+  <T extends keyof RootActions = string>(
+    ...parameters: GlobalParametersWithType<T, RootActions>
+  ): Promisify<ReturnType<RootActions[T]>>;
+  };

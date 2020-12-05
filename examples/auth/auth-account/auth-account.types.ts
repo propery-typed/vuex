@@ -29,7 +29,7 @@ type AuthAccountMutations = {
 };
 
 export type AuthAccountModuleConfig = {
-  namespaced: boolean;
+  namespaced: true;
   state: AuthAccountState;
   actions: AuthAccountActions;
   getters: AuthAccountGetters;

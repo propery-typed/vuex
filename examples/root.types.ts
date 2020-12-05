@@ -10,7 +10,7 @@ type RootActions = {
 
 export type RootModuleConfig = {
   namespaced: false;
-  staet: RootState;
+  state: RootState;
   actions: RootActions;
   modules: { auth: AuthModuleConfig };
 };

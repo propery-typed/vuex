@@ -14,4 +14,4 @@ export type TypedActionTree<
     TypedActionContext<Config, RootConfig>
     >
     : never
-  :Unreachable;
+  : Unreachable;
