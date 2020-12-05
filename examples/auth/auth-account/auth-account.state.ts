@@ -1,4 +1,4 @@
-import { IUser, IProject } from '@/example/models';
+import { IUser, IProject } from '@examples/models';
 
 export type AuthAccountState = {
   status: 'success' | 'error' | 'loading' | null;

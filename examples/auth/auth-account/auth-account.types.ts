@@ -1,4 +1,4 @@
-import { IUser, IProject } from '@/example/models';
+import { IUser, IProject } from '@examples/models';
 import { ModuleConfig } from '@/module-config';
 import { AuthAccountState } from './auth-account.state';
 

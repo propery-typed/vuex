@@ -1,4 +1,4 @@
-import { RootConfig } from '@/example/root.config';
+import { RootConfig } from '@examples/root.config';
 import { TypedModule } from '@/module';
 import { AuthAccountModuleConfig } from './auth-account.types';
 

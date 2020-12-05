@@ -1,4 +1,4 @@
-import { IUser } from '@/example/models';
+import { IUser } from '@examples/models';
 import { AuthAccountModule } from './auth-account.module';
 
 export const authAccountActions: AuthAccountModule['actions'] = {

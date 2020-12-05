@@ -7,7 +7,6 @@ module.exports = {
     '@typescript-eslint',
   ],
   extends: [
-    'temoncher/base',
     'temoncher/typescript',
   ],
   rules: {

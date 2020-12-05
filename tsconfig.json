@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@examples/*": ["examples/*"]
+    }
+  },
   "extends": "./tsconfig.build.json",
+  "include": ["src", "examples"],
   "files": [".eslintrc.js"]
 }
