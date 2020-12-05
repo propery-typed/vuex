@@ -26,6 +26,7 @@ const config: webpack.Configuration = {
         loader: 'ts-loader',
         exclude: /node_modules/,
         options: {
+          compiler: 'ttypescript',
           configFile: 'tsconfig.build.json',
         },
       },
