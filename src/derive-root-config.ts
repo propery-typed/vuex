@@ -1,17 +1,16 @@
+import { ObjectLeaves, ObjectValueByPath } from '@properly-typed/utils';
 import { DefaultModuleConfig } from './defaults';
 import { DeepTraverse } from './utils/deep-traverse';
-import { Leaves } from './utils/leaves';
-import { OutputType } from './utils/output-type';
 import { Unreachable } from './utils/unreachable';
 
 type LeavesToOutput<O extends { [k: string]: any }> = {
-  [K in Leaves<O, '/'>]: OutputType<O, K>;
+  [K in ObjectLeaves<O, '/'>]: ObjectValueByPath<O, K>;
 };
 
 type LeavesToReturnType<
  Getters extends { [k: string]: any },
 > = {
-  [K in Leaves<Getters, '/'>]: OutputType<
+  [K in ObjectLeaves<Getters, '/'>]: ObjectValueByPath<
   Getters, K
   > extends infer G
     ? G extends (...parameters: any) => any
