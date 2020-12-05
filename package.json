@@ -1,6 +1,6 @@
 {
   "name": "@properly-typed/vuex",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Strict types for vuex modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
