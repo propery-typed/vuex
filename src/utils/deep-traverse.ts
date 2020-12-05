@@ -9,7 +9,9 @@ type ExtractField<
 > = T extends keyof M
   ? IsNever<M[T]> extends true
     ? unknown
-    : M[T]
+    : IsAny<M[T]> extends true
+      ? unknown
+      : M[T]
   : unknown;
 
 export type DeepTraverse<
@@ -21,11 +23,11 @@ export type DeepTraverse<
     ? never
     : M['modules'] extends infer Modules
       ? IsNever<Modules> extends true
-        ? M[T]
+        ? IsAny<M[T]> extends true
+          ? unknown
+          : M[T]
         : StripNever<{
-          [K in keyof Modules]: T extends keyof Modules[K]
-            ? DeepTraverse<Modules[K], T>
-            : never
+          [K in keyof Modules]: DeepTraverse<Modules[K], T>
         }> extends infer ModuleTree
           ? ExtractField<M, T> & ModuleTree
           : Unreachable

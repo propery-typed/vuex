@@ -1,15 +1,20 @@
 import { IUser, IProject } from '@examples/models';
 import { ModuleConfig } from '@/module-config';
-import { AuthAccountState } from './auth-account.state';
 
-export type AuthAccountActions = {
+type AuthAccountState = {
+  status: 'success' | 'error' | 'loading' | null;
+  user: IUser | null;
+  userProjects: IProject[];
+};
+
+type AuthAccountActions = {
   login: (payload: { username: string; password: string }) => Promise<void>;
   updateUserData: (userData: IUser) => void;
   logout: () => Promise<void>;
   getUserProjects: () => Promise<void>;
 };
 
-export type AuthAccountGetters = {
+type AuthAccountGetters = {
   isUserAdmin: () => boolean;
   isUserOfficeDirector: () => boolean;
   isUserOfficeViewer: () => boolean;
@@ -17,7 +22,7 @@ export type AuthAccountGetters = {
   isUserPV: () => boolean;
 };
 
-export type AuthAccountMutations = {
+type AuthAccountMutations = {
   setLoadingStatus: (status: 'success' | 'error' | 'loading' | null) => void;
   loginSuccess: (userData: IUser) => void;
   loginFailure: () => void;
@@ -25,10 +30,10 @@ export type AuthAccountMutations = {
   resetModuleState: () => void;
 };
 
-export type AuthAccountModuleConfig = ModuleConfig<
-true,
-AuthAccountState,
-AuthAccountGetters,
-AuthAccountActions,
-AuthAccountMutations
->;
+export type AuthAccountModuleConfig = ModuleConfig<{
+  namespaced: boolean;
+  state: AuthAccountState;
+  actions: AuthAccountActions;
+  getters: AuthAccountGetters;
+  mutations: AuthAccountMutations;
+}>;

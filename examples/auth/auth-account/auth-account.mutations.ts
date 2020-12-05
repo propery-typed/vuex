@@ -15,5 +15,7 @@ export const authAccountMutations: AuthAccountModule['mutations'] = {
   setUserProjects: (state, projects) => {
     state.userProjects = projects;
   },
-  resetModuleState: (state) => Object.assign(state, getAuthAccountInitialState()),
+  resetModuleState: (state) => {
+    Object.assign(state, getAuthAccountInitialState());
+  },
 };

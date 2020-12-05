@@ -1,19 +1,17 @@
 import { ModuleConfig } from '@/module-config';
 import { AuthModuleConfig } from './auth/auth.types';
 
-export type RootState = {
+type RootState = {
   some: 'some';
 };
 
-export type RootActions = {
+type RootActions = {
   someAction: () => 'dude';
 };
 
-export type RootModuleConfig = ModuleConfig<
-false,
-RootState,
-never,
-RootActions,
-never,
-{ auth: AuthModuleConfig }
->;
+export type RootModuleConfig = ModuleConfig<{
+  namespaced: false;
+  staet: RootState;
+  actions: RootActions;
+  modules: { auth: AuthModuleConfig };
+}>;

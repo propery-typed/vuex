@@ -21,7 +21,7 @@ export const authAccountActions: AuthAccountModule['actions'] = {
 
   logout: async (context) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const something = context.rootGetters['auth/account/isUserOfficeViewer'];
+    const something = context.rootGetters;
     await Promise.resolve();
   },
 

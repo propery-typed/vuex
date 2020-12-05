@@ -6,7 +6,7 @@ import { AuthAccountModule } from './auth-account.module';
 
 export const account: AuthAccountModule = {
   namespaced: true,
-  state: getAuthAccountInitialState(),
+  state: getAuthAccountInitialState,
   getters: authAccountGetters,
   actions: authAccountActions,
   mutations: authAccountMutations,

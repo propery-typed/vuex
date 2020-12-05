@@ -1,12 +1,6 @@
-import { IUser, IProject } from '@examples/models';
+import { AuthAccountModule } from './auth-account.module';
 
-export type AuthAccountState = {
-  status: 'success' | 'error' | 'loading' | null;
-  user: IUser | null;
-  userProjects: IProject[];
-};
-
-export const getAuthAccountInitialState = (): AuthAccountState => ({
+export const getAuthAccountInitialState: AuthAccountModule['state'] = () => ({
   status: null,
   user: { name: 'John Doe' },
   userProjects: [],

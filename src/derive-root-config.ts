@@ -16,7 +16,7 @@ type LeavesToReturnType<
     ? G extends (...parameters: any) => any
       ? ReturnType<G>
       : never
-    : never;
+    : Unreachable;
 };
 
 export type DeriveRootConfig<

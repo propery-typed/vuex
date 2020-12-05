@@ -14,11 +14,13 @@ interface IAuthModuleState {
   isAuthed: boolean;
 }
 
-export type AuthModuleConfig = ModuleConfig<
-true,
-IAuthModuleState,
-never,
-AuthActions,
-ToDictionary<IAuthMutations>,
-{ account: AuthAccountModuleConfig }
->;
+export type AuthModuleConfig = ModuleConfig<{
+  namespaced: true;
+  state: IAuthModuleState;
+  actions: AuthActions;
+  getters: any;
+  mutations: ToDictionary<IAuthMutations>;
+  modules: {
+    account: AuthAccountModuleConfig;
+  };
+}>;

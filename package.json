@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/propery-typed/vuex#readme",
   "dependencies": {
-    "@properly-typed/utils": "^0.0.6"
+    "@properly-typed/utils": "^0.0.7"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.8.1",

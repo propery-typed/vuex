@@ -1,39 +1,58 @@
-import { IsAny } from '@properly-typed/utils';
+import { IsAny, IsNever, IsUnknown } from '@properly-typed/utils';
 import { TypedMutationTree } from './trees/mutation-tree';
 import { TypedGettersTree } from './trees/getter-tree';
 import { TypedActionTree } from './trees/action-tree';
-import { StripNever } from './utils/strip-never';
 import { DefaultModuleConfig, DefaultRootConfig } from './defaults';
 
-type TypedModuleField<T, R> = IsAny<T> extends true
-  ? any
-  : T extends never
-    ? never
+type TypedModuleField<
+  Config extends DefaultModuleConfig,
+  K extends keyof Config,
+  R, // Value to return if config is valid
+> = IsUnknown<Config[K]> extends true
+  ? never // Remove if unknown
+  : IsNever<Config[K]> extends true
+    ? never // Remove if never
     : R;
+
+type AssignDefaults<T> = {
+  [K in keyof T as IsNever<T[K]> extends true
+    ? never // Remove `never` values
+    : K // Keep rest of the keys
+  ]: IsAny<T[K]> extends true
+    ? K extends keyof DefaultModuleConfig
+      ? DefaultModuleConfig[K]
+      : never
+    : T[K];
+};
 
 export type TypedModule<
   Config extends DefaultModuleConfig = DefaultModuleConfig,
   RootConfig extends DefaultRootConfig = DefaultRootConfig,
-> = StripNever<{
-  namespaced: TypedModuleField<Config['namespaced'], Config['namespaced']>;
+> = AssignDefaults<{
+  namespaced: TypedModuleField<Config, 'namespaced', Config['namespaced']>;
   state: TypedModuleField<
-  Config['state'],
+  Config,
+  'state',
   Config['state'] | (() => Config['state'])
   >;
   getters: TypedModuleField<
-  Config['getters'],
+  Config,
+  'getters',
   TypedGettersTree<Config, RootConfig>
   >;
   actions: TypedModuleField<
-  Config['actions'],
+  Config,
+  'actions',
   TypedActionTree<Config, RootConfig>
   >;
   mutations: TypedModuleField<
-  Config['mutations'],
+  Config,
+  'mutations',
   TypedMutationTree<Config>
   >;
   modules: TypedModuleField<
-  Config['modules'],
+  Config,
+  'modules',
   { [K in keyof Config['modules']]: TypedModule<Config['modules'][K], RootConfig> }
   >;
 }>;
