@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "rimraf dist && tsc --p tsconfig.build.json",
-    "release": "npm run build && np"
+    "release": "yarn build && np"
   },
   "repository": {
     "type": "git",
