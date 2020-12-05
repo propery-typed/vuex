@@ -1,4 +1,3 @@
-import { ModuleConfig } from '@/module-config';
 import { ToDictionary } from '@properly-typed/utils';
 import { AuthAccountModuleConfig } from './auth-account/auth-account.types';
 
@@ -14,13 +13,13 @@ interface IAuthModuleState {
   isAuthed: boolean;
 }
 
-export type AuthModuleConfig = ModuleConfig<{
+export type AuthModuleConfig = {
   namespaced: true;
   state: IAuthModuleState;
   actions: AuthActions;
-  getters: any;
+  getters: undefined;
   mutations: ToDictionary<IAuthMutations>;
   modules: {
     account: AuthAccountModuleConfig;
   };
-}>;
+};

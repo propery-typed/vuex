@@ -4,18 +4,20 @@ import { StripNever } from './strip-never';
 import { Unreachable } from './unreachable';
 
 type ExtractField<
-  M extends Partial<DefaultModuleConfig>,
+  M extends DefaultModuleConfig,
   T extends keyof DefaultModuleConfig,
 > = T extends keyof M
   ? IsNever<M[T]> extends true
     ? unknown
     : IsAny<M[T]> extends true
       ? unknown
-      : M[T]
+      : M[T] extends undefined
+        ? unknown
+        : M[T]
   : unknown;
 
 export type DeepTraverse<
-  M extends Partial<DefaultModuleConfig>,
+  M extends DefaultModuleConfig,
   T extends keyof DefaultModuleConfig,
 > = IsAny<M> extends true
   ? any

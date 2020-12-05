@@ -1,5 +1,4 @@
 import { IUser, IProject } from '@examples/models';
-import { ModuleConfig } from '@/module-config';
 
 type AuthAccountState = {
   status: 'success' | 'error' | 'loading' | null;
@@ -27,13 +26,12 @@ type AuthAccountMutations = {
   loginSuccess: (userData: IUser) => void;
   loginFailure: () => void;
   setUserProjects: (projects: IProject[]) => void;
-  resetModuleState: () => void;
 };
 
-export type AuthAccountModuleConfig = ModuleConfig<{
+export type AuthAccountModuleConfig = {
   namespaced: boolean;
   state: AuthAccountState;
   actions: AuthAccountActions;
   getters: AuthAccountGetters;
   mutations: AuthAccountMutations;
-}>;
+};

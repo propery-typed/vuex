@@ -17,12 +17,16 @@ type TypedModuleField<
 type AssignDefaults<T> = {
   [K in keyof T as IsNever<T[K]> extends true
     ? never // Remove `never` values
-    : K // Keep rest of the keys
+    : IsAny<T[K]> extends true
+      ? K // Keep `any` values
+      : T[K] extends undefined
+        ? never // Remove `undefined` values
+        : K // Keep the rest of the keys
   ]: IsAny<T[K]> extends true
     ? K extends keyof DefaultModuleConfig
-      ? DefaultModuleConfig[K]
-      : never
-    : T[K];
+      ? DefaultModuleConfig[K] // Assign default value if `any`
+      : never // Remove if key is invalid
+    : T[K]; // Keep the rest
 };
 
 export type TypedModule<

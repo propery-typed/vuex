@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { AuthAccountModule } from './auth-account.module';
-import { getAuthAccountInitialState } from './auth-account.state';
 
 export const authAccountMutations: AuthAccountModule['mutations'] = {
   setLoadingStatus: (state, status) => {
@@ -14,8 +13,5 @@ export const authAccountMutations: AuthAccountModule['mutations'] = {
   },
   setUserProjects: (state, projects) => {
     state.userProjects = projects;
-  },
-  resetModuleState: (state) => {
-    Object.assign(state, getAuthAccountInitialState());
   },
 };

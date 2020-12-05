@@ -1,4 +1,3 @@
-import { ModuleConfig } from '@/module-config';
 import { AuthModuleConfig } from './auth/auth.types';
 
 type RootState = {
@@ -9,9 +8,9 @@ type RootActions = {
   someAction: () => 'dude';
 };
 
-export type RootModuleConfig = ModuleConfig<{
+export type RootModuleConfig = {
   namespaced: false;
   staet: RootState;
   actions: RootActions;
   modules: { auth: AuthModuleConfig };
-}>;
+};

@@ -20,7 +20,7 @@ type LeavesToReturnType<
 };
 
 export type DeriveRootConfig<
-  M extends Partial<DefaultModuleConfig>,
+  M extends DefaultModuleConfig,
 > = {
   state: DeepTraverse<M, 'state'>;
   getters: DeepTraverse<M, 'getters'> extends infer Getters
