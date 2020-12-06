@@ -69,6 +69,18 @@ type GlobalDispatch<RootActions extends CustomActions> = {
   ): Promisify<ReturnType<RootActions[T]>>;
 };
 
+type LocalDispatch<Actions extends CustomActions> = {
+  // Local Action
+  <T extends keyof Actions>(
+    type: T,
+    ...parameters: LocalParameters<Actions[T]>
+  ): Promisify<ReturnType<Actions[T]>>;
+  // Local Action with type in payload
+  <T extends keyof Actions>(
+    ...parameters: LocalParametersWithType<T, Actions>
+  ): Promisify<ReturnType<Actions[T]>>;
+};
+
 type LocalAndGlobalDispatch<
   Actions extends CustomActions,
   RootActions extends CustomActions,
@@ -102,5 +114,7 @@ export type TypedDispatch<
     ? UntypedDispatch
     : GlobalDispatch<RootActions>
   : Actions extends CustomActions
-    ? LocalAndGlobalDispatch<Actions, RootActions>
+    ? IsAny<RootActions> extends true
+      ? LocalDispatch<Actions>
+      : LocalAndGlobalDispatch<Actions, RootActions>
     : never;

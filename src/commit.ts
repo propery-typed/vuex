@@ -69,6 +69,18 @@ type GlobalCommit<RootMutations extends CustomMutations> = {
   ): ReturnType<RootMutations[T]>;
 };
 
+type LocalCommit<Mutations extends CustomMutations> = {
+  // Local mutation
+  <T extends keyof Mutations>(
+    type: T,
+    ...parameters: LocalParameters<Mutations[T]>
+  ): ReturnType<Mutations[T]>;
+  // Local mutation with type in payload
+  <T extends keyof Mutations>(
+    ...parameters: LocalParametersWithType<T, Mutations>
+  ): ReturnType<Mutations[T]>;
+};
+
 type LocalAndGlobalCommit<
   Mutations extends CustomMutations,
   RootMutations extends CustomMutations,
@@ -102,5 +114,7 @@ export type TypedCommit<
     ? UntypedCommit
     : GlobalCommit<RootMutations>
   : Mutations extends CustomMutations
-    ? LocalAndGlobalCommit<Mutations, RootMutations>
-    : never;
+    ? IsAny<RootMutations> extends true
+      ? LocalCommit<Mutations>
+      : LocalAndGlobalCommit<Mutations, RootMutations>
+    : UntypedCommit;
