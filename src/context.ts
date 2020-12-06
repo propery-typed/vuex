@@ -4,8 +4,8 @@ import { TypedCommit } from './commit';
 import { DefaultModuleConfig, DefaultRootConfig } from './defaults';
 
 export type TypedActionContext<
-Config extends DefaultModuleConfig,
-RootConfig extends DefaultRootConfig,
+  Config extends DefaultModuleConfig,
+  RootConfig extends DefaultRootConfig,
 > = {
   commit: TypedCommit<Config['mutations'], RootConfig['mutations']>;
   dispatch: TypedDispatch<Config['actions'], RootConfig['actions']>;

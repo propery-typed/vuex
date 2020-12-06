@@ -37,11 +37,11 @@ const authAccountGetters: AuthAccountModule['getters'] = {
 
 const authAccountActions: AuthAccountModule['actions'] = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login: async ({ commit, dispatch, rootGetters }, { username, password }) => {
+  login: async ({ commit, dispatch, rootGetters }, paylaod) => {
     const user: IUser = {
       name: 'Josh',
     };
-    commit('account/loginSuccess', user, { root: true });
+    commit('loginFailure', undefined, { root: false });
 
     await dispatch('account/updateUserData', user, { root: true });
   },

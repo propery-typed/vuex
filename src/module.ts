@@ -30,8 +30,8 @@ type AssignDefaults<T> = {
 };
 
 export type TypedModule<
-  Config extends DefaultModuleConfig = DefaultModuleConfig,
-  RootConfig extends DefaultRootConfig = DefaultRootConfig,
+  Config extends DefaultModuleConfig = any,
+  RootConfig extends DefaultRootConfig = any,
 > = AssignDefaults<{
   namespaced: TypedModuleField<Config, 'namespaced', Config['namespaced']>;
   state: TypedModuleField<

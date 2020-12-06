@@ -98,14 +98,12 @@ type ParseModules<
 export type DeepTraverseNamespaced<
   Module extends DefaultModuleConfig,
   FieldType extends keyof DefaultModuleConfig,
-> = IsAny<Module> extends true
-  ? any
-  : IsNever<Module> extends true
-    ? never
-    : ValidateField<Module[FieldType]> extends infer Field
-      ? Module['modules'] extends infer Modules
-        ? Or<[IsUnknown<Modules>, IsNever<Modules>]> extends true
-          ? Field
-          : Field & ParseModules<Modules, FieldType>
-        : Unreachable
-      : Unreachable;
+> = Or<[IsAny<Module>, IsNever<Module>]> extends true
+  ? unknown
+  : ValidateField<Module[FieldType]> extends infer Field
+    ? Module['modules'] extends infer Modules
+      ? Or<[IsUnknown<Modules>, IsNever<Modules>]> extends true
+        ? Field
+        : Field & ParseModules<Modules, FieldType>
+      : Unreachable
+    : Unreachable;

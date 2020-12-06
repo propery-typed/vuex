@@ -64,6 +64,21 @@ export type TypedCommit<
     <T extends keyof Mutations = string>(
       ...parameters: LocalParametersWithType<T, Mutations>
     ): ReturnType<Mutations[T]>;
+
+    // Untyped mutation
+    (
+      type: string,
+      payload?: unknown,
+      options?: CommitOptions,
+    ): void;
+    // Untyped mutation with type in payload
+    (
+      payloadWithType: {
+        type: string;
+        payload?: unknown;
+      },
+      options?: CommitOptions,
+    ): void;
   } : {
     // Global mutation
     <T extends keyof RootMutations = string>(
@@ -74,4 +89,19 @@ export type TypedCommit<
     <T extends keyof RootMutations = string>(
       ...parameters: GlobalParametersWithType<T, RootMutations>
     ): ReturnType<RootMutations[T]>;
+
+    // Untyped mutation
+    (
+      type: string,
+      payload?: unknown,
+      options?: CommitOptions,
+    ): void;
+    // Untyped mutation with type in payload
+    (
+      payloadWithType: {
+        type: string;
+        payload?: unknown;
+      },
+      options?: CommitOptions,
+    ): void;
   };
