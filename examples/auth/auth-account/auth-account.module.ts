@@ -41,9 +41,9 @@ const authAccountActions: AuthAccountModule['actions'] = {
     const user: IUser = {
       name: 'Josh',
     };
-    commit('auth/account/loginSuccess', user, { root: true });
+    commit('account/loginSuccess', user, { root: true });
 
-    await dispatch('auth/account/updateUserData', user, { root: true });
+    await dispatch('account/updateUserData', user, { root: true });
   },
 
   updateUserData: ({ commit, getters }, userData) => {

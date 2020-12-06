@@ -130,10 +130,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@properly-typed/utils@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@properly-typed/utils/-/utils-0.0.7.tgz#ed53b67790534da32b63262100b467eeea1ec5a4"
-  integrity sha512-BwWH5qAvv6aqhhKod9P9MYQravlNGB9cG02o7XX7aCmXZbXgvuMohdvDQjylFzb7QbxgQTveQZGUg8QAP/94SQ==
+"@properly-typed/utils@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@properly-typed/utils/-/utils-0.0.11.tgz#04a10793c548c6f2de158f3612ef4718420b38c9"
+  integrity sha512-GMzMpAvHs3kA8yLSA4/+OkVMSEOaJTwciST1P9omSemuMJcYk52Ii/PQ90J3ewsA+hQg6VTHouB2s0SIPYoXPw==
   dependencies:
     typescript "^4.1.2"
 

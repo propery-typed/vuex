@@ -34,4 +34,5 @@ export type AuthAccountModuleConfig = {
   actions: AuthAccountActions;
   getters: AuthAccountGetters;
   mutations: AuthAccountMutations;
+  modules: never;
 };

@@ -1,16 +1,16 @@
-import { ObjectLeaves, ObjectValueByPath } from '@properly-typed/utils';
+import {
+  Leaves,
+  ValueByPath,
+  ObjectFlattenPreserveKeys,
+} from '@properly-typed/utils';
 import { DefaultModuleConfig } from './defaults';
-import { DeepTraverse } from './utils/deep-traverse';
+import { DeepTraverse, DeepTraverseNamespaced } from './utils/deep-traverse';
 import { Unreachable } from './utils/unreachable';
 
-type LeavesToOutput<O extends { [k: string]: any }> = {
-  [K in ObjectLeaves<O, '/'>]: ObjectValueByPath<O, K>;
-};
-
-type LeavesToReturnType<
+type NamespacedLeavesToReturnType<
  Getters extends { [k: string]: any },
 > = {
-  [K in ObjectLeaves<Getters, '/'>]: ObjectValueByPath<
+  [K in Leaves<Getters, '/'>]: ValueByPath<
   Getters, K
   > extends infer G
     ? G extends (...parameters: any) => any
@@ -23,13 +23,13 @@ export type DeriveRootConfig<
   M extends DefaultModuleConfig,
 > = {
   state: DeepTraverse<M, 'state'>;
-  getters: DeepTraverse<M, 'getters'> extends infer Getters
-    ? LeavesToReturnType<Getters>
+  getters: DeepTraverseNamespaced<M, 'getters'> extends infer Getters
+    ? NamespacedLeavesToReturnType<Getters>
     : Unreachable;
-  mutations: DeepTraverse<M, 'mutations'> extends infer Mutations
-    ? LeavesToOutput<Mutations>
+  mutations: DeepTraverseNamespaced<M, 'mutations'> extends infer Mutations
+    ? ObjectFlattenPreserveKeys<Mutations>
     : Unreachable;
-  actions: DeepTraverse<M, 'actions'> extends infer Actions
-    ? LeavesToOutput<Actions>
+  actions: DeepTraverseNamespaced<M, 'actions'> extends infer Actions
+    ? ObjectFlattenPreserveKeys<Actions>
     : Unreachable;
 };

@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/propery-typed/vuex#readme",
   "dependencies": {
-    "@properly-typed/utils": "^0.0.7"
+    "@properly-typed/utils": "^0.0.11"
   },
   "devDependencies": {
     "@types/node": "^14.6.4",

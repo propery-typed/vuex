@@ -20,7 +20,7 @@ const authMutations: AuthModule['mutations'] = {
 };
 
 export const auth: AuthModule = {
-  namespaced: true,
+  namespaced: false,
   state: () => ({ isAuthed: false }),
   actions: authActions,
   mutations: authMutations,

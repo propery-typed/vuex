@@ -14,7 +14,7 @@ interface IAuthModuleState {
 }
 
 export type AuthModuleConfig = {
-  namespaced: true;
+  namespaced: false;
   state: IAuthModuleState;
   actions: AuthActions;
   getters: undefined;
