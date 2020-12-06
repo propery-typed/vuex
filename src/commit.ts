@@ -40,68 +40,67 @@ type GlobalParametersWithType<
   ? [payload: { type: T; payload: Payload }, options: OptionsWithRoot<true>]
   : never;
 
+type UntypedCommit = {
+  // Untyped mutation
+  (
+    type: string,
+    payload?: unknown,
+    options?: CommitOptions,
+  ): void;
+  // Untyped mutation with type in payload
+  (
+    payloadWithType: {
+      type: string;
+      payload?: unknown;
+    },
+    options?: CommitOptions,
+  ): void;
+};
+
+type GlobalCommit<RootMutations extends CustomMutations> = {
+  // Global mutation
+  <T extends keyof RootMutations>(
+    type: T,
+    ...parameters: GlobalParameters<RootMutations[T]>
+  ): ReturnType<RootMutations[T]>;
+  // Global mutation with type in payload
+  <T extends keyof RootMutations>(
+    ...parameters: GlobalParametersWithType<T, RootMutations>
+  ): ReturnType<RootMutations[T]>;
+};
+
+type LocalAndGlobalCommit<
+  Mutations extends CustomMutations,
+  RootMutations extends CustomMutations,
+> = {
+  // Global mutation
+  <T extends keyof RootMutations>(
+    type: T,
+    ...parameters: GlobalParameters<RootMutations[T]>
+  ): ReturnType<RootMutations[T]>;
+  // Global mutation with type in payload
+  <T extends keyof RootMutations>(
+    ...parameters: GlobalParametersWithType<T, RootMutations>
+  ): ReturnType<RootMutations[T]>;
+
+  // Local mutation
+  <T extends keyof Mutations>(
+    type: T,
+    ...parameters: LocalParameters<Mutations[T]>
+  ): ReturnType<Mutations[T]>;
+  // Local mutation with type in payload
+  <T extends keyof Mutations>(
+    ...parameters: LocalParametersWithType<T, Mutations>
+  ): ReturnType<Mutations[T]>;
+};
+
 export type TypedCommit<
   Mutations extends CustomMutations | undefined,
   RootMutations extends CustomMutations,
-> = Mutations extends CustomMutations
-  ? {
-    // Global mutation
-    <T extends keyof RootMutations = string>(
-      type: T,
-      ...parameters: GlobalParameters<RootMutations[T]>
-    ): ReturnType<RootMutations[T]>;
-    // Global mutation with type in payload
-    <T extends keyof RootMutations = string>(
-      ...parameters: GlobalParametersWithType<T, RootMutations>
-    ): ReturnType<RootMutations[T]>;
-
-    // Local mutation
-    <T extends keyof Mutations = string>(
-      type: T,
-      ...parameters: LocalParameters<Mutations[T]>
-    ): ReturnType<Mutations[T]>;
-    // Local mutation with type in payload
-    <T extends keyof Mutations = string>(
-      ...parameters: LocalParametersWithType<T, Mutations>
-    ): ReturnType<Mutations[T]>;
-
-    // Untyped mutation
-    (
-      type: string,
-      payload?: unknown,
-      options?: CommitOptions,
-    ): void;
-    // Untyped mutation with type in payload
-    (
-      payloadWithType: {
-        type: string;
-        payload?: unknown;
-      },
-      options?: CommitOptions,
-    ): void;
-  } : {
-    // Global mutation
-    <T extends keyof RootMutations = string>(
-      type: T,
-      ...parameters: GlobalParameters<RootMutations[T]>
-    ): ReturnType<RootMutations[T]>;
-    // Global mutation with type in payload
-    <T extends keyof RootMutations = string>(
-      ...parameters: GlobalParametersWithType<T, RootMutations>
-    ): ReturnType<RootMutations[T]>;
-
-    // Untyped mutation
-    (
-      type: string,
-      payload?: unknown,
-      options?: CommitOptions,
-    ): void;
-    // Untyped mutation with type in payload
-    (
-      payloadWithType: {
-        type: string;
-        payload?: unknown;
-      },
-      options?: CommitOptions,
-    ): void;
-  };
+> = IsAny<Mutations> extends true
+  ? IsAny<RootMutations> extends true
+    ? UntypedCommit
+    : GlobalCommit<RootMutations>
+  : Mutations extends CustomMutations
+    ? LocalAndGlobalCommit<Mutations, RootMutations>
+    : never;

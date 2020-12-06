@@ -40,68 +40,67 @@ type GlobalParametersWithType<
   ? [payload: { type: T; payload: Payload }, options: OptionsWithRoot<true>]
   : never;
 
+type UntypedDispatch = {
+  // Untyped action
+  (
+    type: string,
+    payload?: unknown,
+    options?: DispatchOptions,
+  ): Promise<unknown>;
+  // Untyped action with type in payload
+  (
+    payloadWithType: {
+      type: string;
+      payload?: unknown;
+    },
+    options?: DispatchOptions,
+  ): Promise<unknown>;
+};
+
+type GlobalDispatch<RootActions extends CustomActions> = {
+  // Global Action
+  <T extends keyof RootActions>(
+    type: T,
+    ...parameters: GlobalParameters<RootActions[T]>
+  ): Promisify<ReturnType<RootActions[T]>>;
+  // Global Action with type in payload
+  <T extends keyof RootActions>(
+    ...parameters: GlobalParametersWithType<T, RootActions>
+  ): Promisify<ReturnType<RootActions[T]>>;
+};
+
+type LocalAndGlobalDispatch<
+  Actions extends CustomActions,
+  RootActions extends CustomActions,
+> = {
+  // Global Action
+  <T extends keyof RootActions>(
+    type: T,
+    ...parameters: GlobalParameters<RootActions[T]>
+  ): Promisify<ReturnType<RootActions[T]>>;
+  // Global Action with type in payload
+  <T extends keyof RootActions>(
+    ...parameters: GlobalParametersWithType<T, RootActions>
+  ): Promisify<ReturnType<RootActions[T]>>;
+
+  // Local Action
+  <T extends keyof Actions>(
+    type: T,
+    ...parameters: LocalParameters<Actions[T]>
+  ): Promisify<ReturnType<Actions[T]>>;
+  // Local Action with type in payload
+  <T extends keyof Actions>(
+    ...parameters: LocalParametersWithType<T, Actions>
+  ): Promisify<ReturnType<Actions[T]>>;
+};
+
 export type TypedDispatch<
   Actions extends CustomActions | undefined,
   RootActions extends CustomActions,
-> = Actions extends CustomActions
-  ? {
-    // Global Action
-    <T extends keyof RootActions = string>(
-      type: T,
-      ...parameters: GlobalParameters<RootActions[T]>
-    ): Promisify<ReturnType<RootActions[T]>>;
-    // Global Action with type in payload
-    <T extends keyof RootActions = string>(
-      ...parameters: GlobalParametersWithType<T, RootActions>
-    ): Promisify<ReturnType<RootActions[T]>>;
-
-    // Local Action
-    <T extends keyof Actions = string>(
-      type: T,
-      ...parameters: LocalParameters<Actions[T]>
-    ): Promisify<ReturnType<Actions[T]>>;
-    // Local Action with type in payload
-    <T extends keyof Actions = string>(
-      ...parameters: LocalParametersWithType<T, Actions>
-    ): Promisify<ReturnType<Actions[T]>>;
-
-    // Untyped action
-    (
-      type: string,
-      payload?: unknown,
-      options?: DispatchOptions,
-    ): Promise<unknown>;
-    // Untyped action with type in payload
-    (
-      payloadWithType: {
-        type: string;
-        payload?: unknown;
-      },
-      options?: DispatchOptions,
-    ): Promise<unknown>;
-  } : {
-    // Global Action
-    <T extends keyof RootActions = string>(
-      type: T,
-      ...parameters: GlobalParameters<RootActions[T]>
-    ): Promisify<ReturnType<RootActions[T]>>;
-    // Global Action with type in payload
-    <T extends keyof RootActions = string>(
-      ...parameters: GlobalParametersWithType<T, RootActions>
-    ): Promisify<ReturnType<RootActions[T]>>;
-
-    // Untyped action
-    (
-      type: string,
-      payload?: unknown,
-      options?: DispatchOptions,
-    ): Promise<unknown>;
-    // Untyped action with type in payload
-    (
-      payloadWithType: {
-        type: string;
-        payload?: unknown;
-      },
-      options?: DispatchOptions,
-    ): Promise<unknown>;
-  };
+> = IsAny<Actions> extends true
+  ? IsAny<RootActions> extends true
+    ? UntypedDispatch
+    : GlobalDispatch<RootActions>
+  : Actions extends CustomActions
+    ? LocalAndGlobalDispatch<Actions, RootActions>
+    : never;
