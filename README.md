@@ -95,7 +95,8 @@ type ModuleMutations = {
  * Actions should have ONLY ONE ARGUMENT as payload as well
  */
 type ModuleActions = {
-  getUser: (userId: string) => Promise<IUser>;
+  setDefaultUser: () => IUser;
+  getUser: (userId?: string) => Promise<void>;
 };
 
 type ModuleConfig = {
@@ -153,11 +154,8 @@ export const module: TypedModule<ModuleConfig> = {
       const user: IUser = await apiService.getUser(userId);
 
       context.commit('setUser', user);
-
-      // Will be useful if you want to return some data from your dispatches
-      return user;
     },
   },
 };
 ```
-  
+
