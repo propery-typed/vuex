@@ -95,6 +95,7 @@ type ParseModules<
 > = ParseNamespacedModules<ModuleTree, FieldType>
 & ParseNonNamespacedModules<ModuleTree, FieldType>;
 
+// ? Add support for dynamic modules via `root/${string}/stuff`
 export type DeepTraverseNamespaced<
   Module extends DefaultModuleConfig,
   FieldType extends keyof DefaultModuleConfig,
